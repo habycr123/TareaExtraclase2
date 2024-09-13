@@ -188,57 +188,63 @@ namespace TareaExtraclase2
             }
 
             ListaDoble mergedList = new ListaDoble();
-
             Nodo? currentA = (listA as ListaDoble)?.Head;
             Nodo? currentB = (listB as ListaDoble)?.Head;
 
-            while (currentA != null && currentB != null)
+            if (direction == SortDirection.Asc)
             {
-                if (currentA.Value < currentB.Value)
+                // Fusión ascendente
+                while (currentA != null && currentB != null)
                 {
-                    mergedList.InsertInOrder(currentA.Value);
-                    currentA = currentA.Next;
+                    if (currentA.Value < currentB.Value)
+                    {
+                        mergedList.InsertInOrder(currentA.Value);
+                        currentA = currentA.Next;
+                    }
+                    else
+                    {
+                        mergedList.InsertInOrder(currentB.Value);
+                        currentB = currentB.Next;
+                    }
                 }
-                else
+            }
+            else if (direction == SortDirection.Desc)
+            {
+                // Fusión descendente
+                while (currentA != null && currentB != null)
                 {
-                    mergedList.InsertInOrder(currentB.Value);
-                    currentB = currentB.Next;
+                    if (currentA.Value > currentB.Value)
+                    {
+                        mergedList.InsertInOrder(currentA.Value);
+                        currentA = currentA.Next;
+                    }
+                    else
+                    {
+                        mergedList.InsertInOrder(currentB.Value);
+                        currentB = currentB.Next;
+                    }
                 }
             }
 
+            // Agregar los elementos restantes de la lista A
             while (currentA != null)
             {
                 mergedList.InsertInOrder(currentA.Value);
                 currentA = currentA.Next;
             }
 
+            // Agregar los elementos restantes de la lista B
             while (currentB != null)
             {
                 mergedList.InsertInOrder(currentB.Value);
                 currentB = currentB.Next;
             }
 
-            // Ordenar en el sentido especificado
-            if (direction == SortDirection.Desc)
-            {
-                Nodo? current = mergedList.Head;
-                ListaDoble reversedList = new ListaDoble();
-
-                while (current != null)
-                {
-                    reversedList.InsertInOrder(current.Value);
-                    current = current.Next;
-                }
-
-                Head = reversedList.Head;
-                Tail = reversedList.Tail;
-            }
-            else
-            {
-                Head = mergedList.Head;
-                Tail = mergedList.Tail;
-            }
+            // Actualizar la lista actual con los valores de la lista fusionada
+            Head = mergedList.Head;
+            Tail = mergedList.Tail;
         }
+
         public void Invert()
         {
             if (Head == null)
